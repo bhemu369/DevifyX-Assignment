@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* CSS Custom Properties for Theme */
+:root {
+  /* Light theme colors */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f8fafc;
+  --color-bg-tertiary: #f1f5f9;
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #64748b;
+  --color-border: #e2e8f0;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
+  
+  /* Semantic colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #06b6d4;
+}
+
+.dark {
+  /* Dark theme colors */
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+  --color-border: #475569;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
+  
+  /* Semantic colors for dark mode */
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  --color-info: #0891b2;
+}
+
+/* Custom theme utilities using @layer */
+@layer utilities {
+  .theme-bg-primary {
+    background-color: var(--color-bg-primary);
+  }
+
+  .theme-bg-secondary {
+    background-color: var(--color-bg-secondary);
+  }
+
+  .theme-bg-tertiary {
+    background-color: var(--color-bg-tertiary);
+  }
+
+  .theme-text-primary {
+    color: var(--color-text-primary);
+  }
+
+  .theme-text-secondary {
+    color: var(--color-text-secondary);
+  }
+
+  .theme-text-tertiary {
+    color: var(--color-text-tertiary);
+  }
+
+  .theme-border {
+    border-color: var(--color-border);
+  }
+
+  .theme-accent {
+    color: var(--color-accent);
+  }
+
+  .theme-accent-bg {
+    background-color: var(--color-accent);
+  }
+
+  .theme-accent-bg:hover {
+    background-color: var(--color-accent-hover);
+  }
+
+  /* Focus ring utility */
+  .focus-ring {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  .focus-ring:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Custom component classes using @layer */
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200 text-white;
+    background-color: var(--color-accent);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-accent-hover);
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .btn-secondary:hover {
+    @apply opacity-90;
+  }
+
+  .card {
+    @apply rounded-lg shadow-sm border;
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-border);
+  }
+
+  .input {
+    @apply rounded-md px-3 py-2 border focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+  }
+}
+
+/* Custom styles for our dependency visualizer */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Scrollbar styling for dark mode */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+
