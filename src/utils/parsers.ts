@@ -1,6 +1,5 @@
 import type { DependencyNode, DependencyType } from '../types/dependency';
-// @ts-ignore - XML parsing library
-import * as xml2js from 'xml2js';
+import { XMLParser } from 'fast-xml-parser';
 
 export async function parsePackageJson(content: string): Promise<DependencyNode[]> {
   try {
@@ -172,17 +171,27 @@ export async function parsePipRequirements(content: string): Promise<DependencyN
 
 export async function parseMavenPom(content: string): Promise<DependencyNode[]> {
   try {
-    const parser = new xml2js.Parser();
-    const result = await parser.parseStringPromise(content);
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      attributeNamePrefix: "@_"
+    });
+    const result = parser.parse(content);
     
     const dependencies: DependencyNode[] = [];
-    const projectDeps = result?.project?.dependencies?.[0]?.dependency;
+    
+    // fast-xml-parser structure is different - dependencies can be an array or single object
+    let projectDeps = result?.project?.dependencies?.dependency;
+    
+    // Handle both single dependency and array of dependencies
+    if (projectDeps && !Array.isArray(projectDeps)) {
+      projectDeps = [projectDeps];
+    }
 
     if (Array.isArray(projectDeps)) {
       for (const dep of projectDeps) {
-        const name = `${dep.groupId?.[0] || 'unknown'}:${dep.artifactId?.[0] || 'unknown'}`;
-        const version = dep.version?.[0] || 'unknown';
-        const scope = dep.scope?.[0] || 'compile';
+        const name = `${dep.groupId || 'unknown'}:${dep.artifactId || 'unknown'}`;
+        const version = dep.version || 'unknown';
+        const scope = dep.scope || 'compile';
         
         // Map Maven scopes to our dependency types
         let type: DependencyType = 'dependencies';
